@@ -24,6 +24,8 @@ Gem::Specification.new do |spec|
   # internal structure with proper indentation
   spec.add_development_dependency 'awesome_print'
 
+  spec.add_development_dependency 'rollbar'
+
   # Better Errors replaces the standard Rails error page with a much better and more useful
   # error page.
   spec.add_development_dependency 'better_errors'
@@ -58,4 +60,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'test-prof'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'
+  spec.add_development_dependency 'dotenv'
 end

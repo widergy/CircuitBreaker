@@ -1,0 +1,65 @@
+inherit_from: ../.rubocop.yml
+
+AllCops:
+  NewCops: disable
+
+Layout/LineLength:
+  Max: 99
+  Exclude:
+    - spec/**/*
+    - config/routes.rb
+
+Layout/HashAlignment:
+  Enabled: true
+
+require:
+  - rubocop-rspec
+  - rubocop-rails
+
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+Rails:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 10
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+    - config/routes.rb
+    - ./*.gemspec
