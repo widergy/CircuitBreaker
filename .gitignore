@@ -19,3 +19,4 @@ spec/dummy/log/*.log
 /pkg/
 /spec/reports/
 /tmp/
+.byebug_history
