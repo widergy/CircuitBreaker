@@ -48,13 +48,13 @@ module CircuitBreaker
     def check_sleep_window
       return unless sleep_window < time_window
 
-      warning_message = "sleep_window: #{sleep_window} is shorter than time_window: #{time_window}, "\
-                        'the error_rate would not be reset after a sleep.'
+      warning_message = "sleep_window: #{sleep_window} is shorter than time_window: #{time_window}"
       raise CircuitBreaker::InvalidOptionsError, warning_message
     end
 
     def skip!
-      event_notifier.info("Circuit Breaker: skipping to execute circuit: #{circuit}. Circuit is open.\n")
+      event_notifier.info("Circuit Breaker: skipping to execute circuit: #{circuit}. "\
+        "Circuit is open.\n")
       raise CircuitBreaker::OpenCircuitError, circuit
     end
 
@@ -66,7 +66,7 @@ module CircuitBreaker
     def close!
       return unless !open? && delete_from_cache(half_open_storage_key)
 
-      event_notifier.info("Circuit Breaker: close! allowing to execute circuit: #{circuit} again\n")
+      event_notifier.info("Circuit Breaker: close! allowing to execute circuit #{circuit} again\n")
     end
 
     def failure!

@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-require_relative "lib/circuit_breaker/version"
+require_relative 'lib/circuit_breaker/version'
 
 Gem::Specification.new do |spec|
-  spec.name = "circuit_breaker"
+  spec.name = 'circuit_breaker'
   spec.version = CircuitBreaker::VERSION
-  spec.authors = ["Widergy"]
-  spec.email = ["PENDING"]
+  spec.authors = ['Widergy']
+  spec.email = ['PENDING']
 
-  spec.summary = "Ruby Circuit Breaker implementation"
-  spec.description = "This gem allows to build a Circuit Breaker patron"
-  spec.homepage = "https://github.com/widergy/CircuitBreaker"
-  spec.license = "MIT"
-  spec.required_ruby_version = ">= 2.7.0"
+  spec.summary = 'Ruby Circuit Breaker implementation'
+  spec.description = 'This gem allows to build a Circuit Breaker patron'
+  spec.homepage = 'https://github.com/widergy/CircuitBreaker'
+  spec.license = 'MIT'
+  spec.required_ruby_version = '>= 2.7.0'
 
   spec.files = Dir['{app,config,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.rdoc']
   spec.test_files = Dir['spec/**/*']
@@ -55,10 +55,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubycritic'
 
   # Rspec helpers
+  spec.add_development_dependency 'dotenv'
   spec.add_development_dependency 'shoulda-matchers'
   spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'test-prof'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'
-  spec.add_development_dependency 'dotenv'
 end
