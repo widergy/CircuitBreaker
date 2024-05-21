@@ -6,7 +6,7 @@ require_relative '../lib/circuit_breaker/exceptions'
 RSpec.describe CircuitBreaker do
   subject(:run_circuit) do
     proc do
-      described_class.run(url, {
+      described_class.run(url, options: {
         time_window: time_window, volume_threshold: 1,
         sleep_window: sleep_window, error_threshold: 50
       }.as_json
