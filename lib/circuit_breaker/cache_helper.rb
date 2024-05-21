@@ -12,13 +12,19 @@ module CircuitBreaker
       cache_storage.write(key, value, options)
     end
 
-    def key_exists_in_cache?(key, namespace: nil)
-      cache_storage.exist?(key, namespace: namespace)
+    def key_exists_in_cache?(key, namespace: nil, options: {})
+      options = options.merge({ namespace: namespace })
+      cache_storage.exist?(key, options)
     end
 
     def increment_in_cache(key, increment, options: {})
-      value = key_exists_in_cache?(key) ? fetch_from_cache(key, options: { raw: true }).to_i : 0
+      value = fetch_value_from_cache(key)
       write_to_cache(key, value: value + increment, options: options.merge({ raw: true }))
+    end
+
+    def fetch_value_from_cache(key)
+      return 0 unless key_exists_in_cache?(key, options: { raw: true })
+      fetch_from_cache(key, options: { raw: true }).to_i
     end
 
     def delete_from_cache(key)
