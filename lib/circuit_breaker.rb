@@ -10,8 +10,8 @@ module CircuitBreaker
     include CircuitBreaker::NotifierHelper
     attr_reader :circuit, :circuit_options, :exceptions
 
-    def run(circuit, options)
-      initialize_circuit(circuit, options)
+    def run(circuit, utility = nil, options: {})
+      initialize_circuit(circuit, utility, options: options)
       return skip! if open?
 
       begin
@@ -24,8 +24,9 @@ module CircuitBreaker
       response
     end
 
-    def initialize_circuit(circuit, options)
+    def initialize_circuit(circuit, utility = nil, options: {})
       @circuit = circuit.to_s
+      @utility = utility
       @circuit_options = options
       @exceptions = options.fetch(:exceptions)
       check_sleep_window
@@ -53,8 +54,7 @@ module CircuitBreaker
     end
 
     def skip!
-      event_notifier.info("Circuit Breaker: skipping to execute circuit: #{circuit}. "\
-        "Circuit is open.\n")
+      event_notifier.info("Circuit Breaker: skipping to execute: #{circuit}. Circuit is open.\n")
       raise CircuitBreaker::OpenCircuitError, circuit
     end
 
@@ -66,7 +66,7 @@ module CircuitBreaker
     def close!
       return unless !open? && delete_from_cache(half_open_storage_key)
 
-      event_notifier.info("Circuit Breaker: close! allowing to execute circuit #{circuit} again\n")
+      event_notifier.info("Circuit Breaker: close! allowing to execute: #{circuit} again\n")
     end
 
     def failure!
