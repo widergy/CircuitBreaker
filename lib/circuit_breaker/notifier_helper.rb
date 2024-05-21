@@ -15,10 +15,10 @@ module CircuitBreaker
       event_notifier.info("Circuit Breaker: open! will stop to execute circuit: #{circuit}\n"\
       "Number of failures: #{failures}, rate: #{error_rate(failures,
                                                            successes)}, in #{time_window} seconds")
-      log_in_circuit_open_notifier
+      log_in_circuit_open_notifier(failures, successes)
     end
 
-    def log_in_circuit_open_notifier
+    def log_in_circuit_open_notifier(failures, successes)
       circuit_open_notifier.warning("Circuit Open for utility #{@utility.code} - #{@utility.name}",
                                     service: @service, utility: @utility,
                                     time_window: option_value('time_window'),
