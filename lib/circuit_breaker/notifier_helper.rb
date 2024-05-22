@@ -21,7 +21,7 @@ module CircuitBreaker
     def log_in_circuit_open_notifier(failures, successes)
       circuit_open_notifier.warning('Circuit Open for utility '\
         "#{@utility&.code} - #{@utility&.name}",
-                                    service: @service, utility: @utility,
+                                    circuit: @circuit, utility: @utility&.name,
                                     time_window: option_value('time_window'),
                                     rate: error_rate(failures, successes),
                                     failures: failures, successes: successes)
