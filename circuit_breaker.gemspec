@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-require_relative "lib/circuit_breaker/version"
+require_relative 'lib/circuit_breaker/version'
 
 Gem::Specification.new do |spec|
-  spec.name = "circuit_breaker"
+  spec.name = 'circuit_breaker'
   spec.version = CircuitBreaker::VERSION
-  spec.authors = ["Widergy"]
-  spec.email = ["PENDING"]
+  spec.authors = ['Widergy']
+  spec.email = ['PENDING']
 
-  spec.summary = "Ruby Circuit Breaker implementation"
-  spec.description = "This gem allows to build a Circuit Breaker patron"
-  spec.homepage = "https://github.com/widergy/CircuitBreaker"
-  spec.license = "MIT"
-  spec.required_ruby_version = ">= 2.7.0"
+  spec.summary = 'Ruby Circuit Breaker implementation'
+  spec.description = 'This gem allows to build a Circuit Breaker patron'
+  spec.homepage = 'https://github.com/widergy/CircuitBreaker'
+  spec.license = 'MIT'
+  spec.required_ruby_version = '>= 2.7.0'
 
   spec.files = Dir['{app,config,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.rdoc']
   spec.test_files = Dir['spec/**/*']
@@ -23,6 +23,8 @@ Gem::Specification.new do |spec|
   # Awesome Print is a Ruby library that pretty prints Ruby objects in full color exposing their
   # internal structure with proper indentation
   spec.add_development_dependency 'awesome_print'
+
+  spec.add_development_dependency 'rollbar'
 
   # Better Errors replaces the standard Rails error page with a much better and more useful
   # error page.
@@ -53,6 +55,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubycritic'
 
   # Rspec helpers
+  spec.add_development_dependency 'dotenv'
   spec.add_development_dependency 'shoulda-matchers'
   spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'test-prof'
