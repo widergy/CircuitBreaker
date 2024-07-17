@@ -127,7 +127,7 @@ module CircuitBreaker
     end
 
     def increment_event(event)
-      increment_in_cache(stat_storage_key(event), 1, options: { expires: time_window })
+      increment_in_cache(stat_storage_key(event), 1, options: { expires_in: time_window })
     end
 
     def align_time_to_window(window = time_window)

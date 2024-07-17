@@ -50,7 +50,7 @@ RSpec.describe CircuitBreaker do
     let(:initial_value) { Faker::Number.number(digits: 1).to_i }
 
     before do
-      cache.write(cache_key, initial_value, options: { expires: time_window })
+      cache.write(cache_key, initial_value, options: { expires_in: time_window })
     end
 
     it 'changes cache key value' do
@@ -61,7 +61,7 @@ RSpec.describe CircuitBreaker do
 
   context 'when the circuit service is open' do
     before do
-      Rails.cache.write("circuits:#{url}:open", value: true, options: { expires: sleep_window })
+      Rails.cache.write("circuits:#{url}:open", value: true, options: { expires_in: sleep_window })
     end
 
     it 'raises OpenCircuitError exception when circuit is performed' do
@@ -87,8 +87,8 @@ RSpec.describe CircuitBreaker do
 
     context 'with previous circuit service failures' do
       before do
-        cache.write("#{cache_key_prefix}:failure", 10, { expires: time_window })
-        cache.write("#{cache_key_prefix}:success", 0, { expires: time_window })
+        cache.write("#{cache_key_prefix}:failure", 10, { expires_in: time_window })
+        cache.write("#{cache_key_prefix}:success", 0, { expires_in: time_window })
       end
 
       let(:cache_key) { "circuits:#{url}:open" }
@@ -103,7 +103,7 @@ RSpec.describe CircuitBreaker do
 
   context 'when the circuit service is half_open' do
     before do
-      cache.write("circuits:#{url}:half_open", true, { expires: sleep_window })
+      cache.write("circuits:#{url}:half_open", true, { expires_in: sleep_window })
     end
 
     context 'when the circuit service fails' do
