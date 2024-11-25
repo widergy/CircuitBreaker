@@ -1,22 +1,42 @@
-## JIRA Card
+## 📝 JIRA
 
-https://widergy.atlassian.net/browse/[Reemplazar por card (Ej: OPC-1234) 👈]
+🔗 https://widergy.atlassian.net/browse/Reemplazar-por-card-👉👉OPC-1234👈👈
 
-## Summary
+## 📌 Resumen
 
-**[Reemplazar 👉]** Describir los cambios, problemas que se resolvieron, mejoras a la funcionalidad o cualquier nota que pueda ser de utilidad para explicar el desarrollo o solución técnica realizada.
-Detallar si se modificó documentación técnica para que pueda ser contemplada en la revisión.
+> [!TIP]
+> **Reemplazar por:**
+> - Cambios
+> - Problemas resueltos
+> - Mejoras de funcionalidad
+> - Comentarios que ayuden a comprender el desarrollo o solución técnica implementada.
+  
+## 📸 Capturas de Pantalla
 
-## Screenshots
+#### 📒 Pruebas realizadas
+> [!TIP]
+> **🌄 Reemplazar por GIFs o capturas de pantalla (de ser algo estático)** de las pruebas realizadas para las diferentes utilities.
+>
+> - **Mobile:** Considerar pruebas en iOS y Android (en caso de tener impacto específico en la plataforma).
+>
+> - **Web:** Considerar pruebas en desktop y responsive (en caso de corresponder por el cambio realizado).
 
-**[Reemplazar 👉]** Incorporar en esta sección:
+## 🔍 Info para pruebas
+#### 📒 Casos de prueba
 
-- **Backend**: Capturas de pantalla de las pruebas realizadas de los servicios cubriendo los diferentes casos posibles de respuesta, y capturas de active admin en caso de corresponder.
-- **Mobile**: GIFs o capturas de pantalla (de ser algo estático) de las pruebas realizadas con las diferentes utilities y casos afectados considerando iOS y Android (en caso de tener impacto específico en la plataforma).
-- **Web**: GIFs o capturas de pantalla (de ser algo estático) de las pruebas realizadas con las diferentes utilities afectadas en desktop y responsive (En caso de corresponder por el cambio realizado).
+> [!TIP]
+> **Reemplazar por listado de casos.** Se incluyen los detalles necesarios para que la persona encargada de la revisión pueda realizar las pruebas correspondientes.
 
-En caso de no corresponder para el requerimiento reemplazar por N/A.
+- Caso 1
+- Caso N
 
-## Test Cases
+#### 📒 Mocks y otros datos
+> [!TIP]
+> Si no aplica, indicar **N/A**
 
-**[Reemplazar 👉]** Incorporar en esta sección información necesaria para poder realizar alguna prueba por parte de quién vaya a revisar los cambios. En caso de requerirse algún mock para la prueba (que se haya utilizado en el desarrollo), incluir en esta sección.
+## 📚 Documentación Técnica
+
+Se detalla la documentación técnica correspondiente.
+
+#### 📒 Wiki
+🔗 [Link a la DT Actualizada](https://wiki.widergyapp.com/es/Producto/👉👉UtilityGO!/Oficina-Virtual/002-DIRECTORIO-EJEMPLO/DT-UGO-002-001-DOCUMENTO-EJEMPLO👈👈)
