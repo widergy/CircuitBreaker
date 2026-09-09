@@ -11,6 +11,9 @@ Gem::Specification.new do |spec|
   spec.summary = 'Ruby Circuit Breaker implementation'
   spec.description = 'This gem allows to build a Circuit Breaker patron'
   spec.homepage = 'https://github.com/widergy/CircuitBreaker'
+  spec.metadata['allowed_push_host'] = 'https://widergydev-325736894961.d.codeartifact.us-east-1.amazonaws.com'
+  spec.metadata['homepage_uri'] = spec.homepage
+  spec.metadata['source_code_uri'] = spec.homepage
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.7.0'
 

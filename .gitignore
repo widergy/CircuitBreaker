@@ -8,6 +8,7 @@ log/*
 measurement/*
 pkg/*
 .DS_Store
+**/.DS_Store
 .env
 spec/dummy/tmp/*
 spec/dummy/log/*.log
@@ -20,3 +21,8 @@ spec/dummy/log/*.log
 /spec/reports/
 /tmp/
 .byebug_history
+node_modules/
+.npmrc
+vendor/bundle
+yarn-error.log*
+.yarn-integrity

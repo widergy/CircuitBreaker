@@ -1,0 +1,23 @@
+{
+  "name": "circuit-breaker",
+  "private": true,
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@widergy/semantic-release-rails-config": "^1.0.0",
+    "husky": "^9.0.0",
+    "semantic-release": "^15.13.31"
+  },
+  "release": {
+    "extends": "@widergy/semantic-release-rails-config"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "version": "0.1.0"
+}

@@ -1,0 +1,123 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: cimg/ruby:3.1
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - circuit-breaker-bundle-{{ checksum "Gemfile.lock" }}
+            - circuit-breaker-bundle-
+      - run:
+          name: Bundle install
+          command: bundle check --path vendor/bundle || bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - save_cache:
+          key: circuit-breaker-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Run tests
+          command: bundle exec rspec
+
+  release:
+    docker:
+      - image: cimg/node:20.18
+    steps:
+      - checkout
+      - run:
+          name: Set git credentials
+          command: git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+      - run:
+          name: Install AWS dependencies
+          working_directory: /
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt install python3-pip python3-dev
+            sudo pip3 install awscli
+      - run:
+          name: Configure CodeArtifact registry
+          command: |
+            CODEARTIFACT_TOKEN=$(AWS_ACCESS_KEY_ID=$WIDERGYAPP_AWS_ACCESS_KEY_ID \
+              AWS_SECRET_ACCESS_KEY=$WIDERGYAPP_AWS_SECRET_ACCESS_KEY \
+              aws codeartifact get-authorization-token \
+              --domain $CODEARTIFACT_DOMAIN \
+              --domain-owner $CODEARTIFACT_DOMAIN_OWNER \
+              --region us-east-1 \
+              --query authorizationToken \
+              --output text)
+            CODEARTIFACT_HOST="${CODEARTIFACT_URL#https://}"
+            printf "@widergy:registry=%s/npm/npm/\n//%s/npm/npm/:_authToken=%s\n" \
+              "$CODEARTIFACT_URL" "$CODEARTIFACT_HOST" "$CODEARTIFACT_TOKEN" \
+              > .npmrc
+      - restore_cache:
+          keys:
+            - circuit-breaker-node-{{ checksum "yarn.lock" }}
+            - circuit-breaker-node-
+      - run: yarn install
+      - save_cache:
+          key: circuit-breaker-node-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - run: npx semantic-release
+
+  publish:
+    docker:
+      - image: cimg/ruby:3.1
+    steps:
+      - checkout
+      - run:
+          name: Install AWS dependencies
+          working_directory: /
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt install python3-pip python3-dev
+            sudo pip3 install awscli
+      - run:
+          name: Bundle install
+          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run:
+          name: Publish to CodeArtifact
+          command: |
+            gem build circuit_breaker.gemspec
+
+            VERSION=$(ruby -r ./lib/circuit_breaker/version -e 'puts CircuitBreaker::VERSION')
+            GEM_FILE="circuit_breaker-${VERSION}.gem"
+
+            CODEARTIFACT_TOKEN=$(AWS_ACCESS_KEY_ID=$WIDERGYAPP_AWS_ACCESS_KEY_ID \
+              AWS_SECRET_ACCESS_KEY=$WIDERGYAPP_AWS_SECRET_ACCESS_KEY \
+              aws codeartifact get-authorization-token \
+              --domain $CODEARTIFACT_DOMAIN \
+              --domain-owner $CODEARTIFACT_DOMAIN_OWNER \
+              --region us-east-1 \
+              --query authorizationToken \
+              --output text)
+
+            GEM_HOST_API_KEY="Bearer ${CODEARTIFACT_TOKEN}" \
+              gem push "$GEM_FILE" --host "${CODEARTIFACT_URL}/ruby/gems"
+
+workflows:
+  build:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: master
+      - release:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
+          context: widergy-aws-github
+
+  publish:
+    jobs:
+      - publish:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+          context: widergy-aws-github
