@@ -12,18 +12,28 @@ if ! aws configure list-profiles 2>/dev/null | grep -q "^widergyapp$"; then
   exit 1
 fi
 
-CODEARTIFACT_URL="https://widergydev-325736894961.d.codeartifact.us-east-1.amazonaws.com"
+CODEARTIFACT_DOMAIN="widergydev"
+
+DOMAIN_OWNER=$(aws sts get-caller-identity \
+  --profile widergyapp \
+  --query Account \
+  --output text) || {
+  echo "[codeartifact-login] ERROR: No se pudo obtener el ID de cuenta. Verificá que el perfil 'widergyapp' esté configurado correctamente."
+  exit 1
+}
+
+CODEARTIFACT_URL="https://${CODEARTIFACT_DOMAIN}-${DOMAIN_OWNER}.d.codeartifact.us-east-1.amazonaws.com"
 
 echo "[codeartifact-login] Obteniendo token de CodeArtifact..."
 
 CODEARTIFACT_TOKEN=$(aws codeartifact get-authorization-token \
   --profile widergyapp \
-  --domain widergydev \
-  --domain-owner 325736894961 \
+  --domain "$CODEARTIFACT_DOMAIN" \
+  --domain-owner "$DOMAIN_OWNER" \
   --region us-east-1 \
   --query authorizationToken \
   --output text) || {
-  echo "[codeartifact-login] ERROR: No se pudo obtener el token. Verificá que el perfil 'widergyapp' esté configurado con 'aws configure --profile widergyapp'."
+  echo "[codeartifact-login] ERROR: No se pudo obtener el token. Verificá que el perfil 'widergyapp' esté configurado correctamente."
   exit 1
 }
 

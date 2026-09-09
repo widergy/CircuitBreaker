@@ -1,7 +1,17 @@
 #!/bin/bash
 set -e
 
-CODEARTIFACT_URL="https://widergydev-325736894961.d.codeartifact.us-east-1.amazonaws.com/ruby/gems/"
+CODEARTIFACT_DOMAIN="widergydev"
+
+DOMAIN_OWNER=$(aws sts get-caller-identity \
+  --profile widergyapp \
+  --query Account \
+  --output text) || {
+  echo "[add] ERROR: No se pudo obtener el ID de cuenta. Verificá que el perfil 'widergyapp' esté configurado correctamente."
+  exit 1
+}
+
+CODEARTIFACT_URL="https://${CODEARTIFACT_DOMAIN}-${DOMAIN_OWNER}.d.codeartifact.us-east-1.amazonaws.com/ruby/gems/"
 
 bash "$(dirname "$0")/codeartifact-login.sh"
 
@@ -13,8 +23,8 @@ for ARG in "$@"; do
 
   DESCRIBE_OUTPUT=$(aws codeartifact describe-package \
     --profile widergyapp \
-    --domain widergydev \
-    --domain-owner 325736894961 \
+    --domain "$CODEARTIFACT_DOMAIN" \
+    --domain-owner "$DOMAIN_OWNER" \
     --repository gems \
     --format ruby \
     --package "$GEM_NAME" \
